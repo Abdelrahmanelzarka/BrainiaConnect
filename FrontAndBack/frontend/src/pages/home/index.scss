@@ -1,0 +1,28 @@
+@import 'loaders.css/src/animations/ball-clip-rotate-multiple.scss';
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Lilita+One&family=M+PLUS+Rounded+1c:wght@500&display=swap');
+
+
+.main{
+  background-color: rgb(5, 7, 39);
+  position: static;
+  width: 100vw;
+  height: 100vh;
+}
+
+.loader-hidden {
+  display: none;
+}
+
+.loader-active{
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+
+ 
+  }
