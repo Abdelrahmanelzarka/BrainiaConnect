@@ -24,9 +24,6 @@ function Home() {
 
   return (
     <> 
-   
-   
-     
       {loading ?
       <div className='main'>
      <Loader type="ball-clip-rotate-multiple" />
