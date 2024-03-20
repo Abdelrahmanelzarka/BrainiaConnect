@@ -4,20 +4,15 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { Link} from "react-router-dom";
 import logo from "../assets/photos/logo.png";
 
-/*
-01212e
-*/
-
 
 export default function Navbar() {
-
 
 
   return (
 
     <header
       id="header"
-      className={`header fixed-top container-fluid  d-flex align-items-center `}
+      className={`header fixed-top container-fluid  d-flex align-items-center`}
       style={{ backgroundColor:"white", padding:"0 20px"}}
     >
  
@@ -91,9 +86,7 @@ export default function Navbar() {
 
            
   <div
-
 className={`log-sign container-fluid container-xl d-flex align-items-center justify-content-end`}
-  
   >
     <button class="log">Login</button>
     <button class="reg">Sign up</button>
