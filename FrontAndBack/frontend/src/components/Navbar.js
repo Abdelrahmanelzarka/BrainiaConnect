@@ -62,7 +62,7 @@ export default function Navbar() {
 
 
                 <li className="li">
-                  <Link className="nav-link scrollto" to="/" >
+                  <Link className="nav-link scrollto" to="/gui" >
                     Start
                   </Link>
                 </li>
