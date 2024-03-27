@@ -41,8 +41,12 @@ export default function Keyboard() {
 	  }
 
 	async function getVoiceFromText(inputText) {
+		if(inputText.length==0)
+		{
+			return;
+		}
 		const apiKey = "a2cf0958d6b24e1cb1e5040d37608cd1"; // Replace with your actual API key
-		const voiceRssUrl = `http://api.voicerss.org/?key=${apiKey}&hl=en-us&src=${inputText}&c=MP3&r=0&v=Mike`; // Specify audio format (MP3)
+		const voiceRssUrl = `http://api.voicerss.org/?key=${apiKey}&hl=en-us&src=${inputText}&c=MP3&r=0&v=John`; // Specify audio format (MP3)
 	  
 		try {
 		  const response = await fetch(voiceRssUrl);
@@ -84,8 +88,11 @@ export default function Keyboard() {
 	const [inputText, setInputText] = useState(''); 
 
 	const handleKeyClick = (key) => { 
-        if (key === 'back') { 
+        if (key === 'No') { 
 			handleDeleteKey(); 
+		}
+		else if (key=="back"){
+			window.history.back();
 		}
 		else if(key == 'Sound'){
 			getVoiceFromText(inputText);
@@ -140,7 +147,7 @@ export default function Keyboard() {
 		setPreinput(preinput+key)
 		}
 
-		if(preinput.length>2)
+		if(preinput.length>1)
 			{
 			auto(preinput+key)
 			}
@@ -161,13 +168,13 @@ export default function Keyboard() {
 			</div> 
 			<div className="keyboardcontainer"> 
             <div className='cloumnskeys'>
-            <div key="back" className="key_40" >
+            <div key="back" className="key_40" onClick={() => handleKeyClick("back")} >
 								
 									<span  ><FontAwesomeIcon icon={faArrowLeft} size="2x" /> </span> 
 								
 							</div> 
 
-                            <div key="No" className="key_39"  onClick={() => handleKeyClick("back")} >	
+                            <div key="No" className="key_39"  onClick={() => handleKeyClick("No")} >	
 									<span >NO</span> 
 								
 							</div>

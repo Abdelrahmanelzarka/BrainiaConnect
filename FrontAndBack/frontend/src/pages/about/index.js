@@ -33,6 +33,7 @@ function About() {
 <div style={{height:"600px",width:"100%"}}>
 
 </div>
+<h1 style={{paddingLeft:"50px", color:"#01212e"}}>Meet the team:</h1>
 <Team/>
 
 <Footer/>
