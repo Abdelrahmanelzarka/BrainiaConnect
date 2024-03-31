@@ -46,7 +46,7 @@ export default function Keyboard() {
 			return;
 		}
 		const apiKey = "a2cf0958d6b24e1cb1e5040d37608cd1"; // Replace with your actual API key
-		const voiceRssUrl = `http://api.voicerss.org/?key=${apiKey}&hl=en-us&src=${inputText}&c=MP3&r=0&v=John`; // Specify audio format (MP3)
+		const voiceRssUrl = `http://api.voicerss.org/?key=${apiKey}&hl=en-us&src=${inputText}&c=MP3&r=0&v=Linda`; // Specify audio format (MP3)
 	  
 		try {
 		  const response = await fetch(voiceRssUrl);

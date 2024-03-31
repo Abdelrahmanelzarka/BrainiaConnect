@@ -5,7 +5,12 @@ import { Link} from "react-router-dom";
 import logo from "../assets/photos/logo.png";
 
 
+
 export default function Navbar() {
+
+  const handleFooterClick = () => {
+    window.scrollBy(0, document.documentElement.scrollHeight);
+  }
 
 
   return (
@@ -55,7 +60,7 @@ export default function Navbar() {
 
 
                 <li className="li">
-                  <Link className="nav-link scrollto" to="/" >
+                  <Link className="nav-link scrollto" onClick={handleFooterClick} >
                     Contact
                   </Link>
                 </li>

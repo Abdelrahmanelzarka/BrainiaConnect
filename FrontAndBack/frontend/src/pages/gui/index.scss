@@ -192,7 +192,7 @@
 
 @for $i from 0 through 35 {
 	.key_#{$i} {
-	  animation: glowing #{($i+1) / 20}s infinite;
+	  animation: glowing #{1/ 8+($i*0.2)}s infinite;
 		display: flex; 
 		width: 90px; 
 		height: 90px; 
