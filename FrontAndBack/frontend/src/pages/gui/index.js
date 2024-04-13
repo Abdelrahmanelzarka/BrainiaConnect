@@ -1,14 +1,37 @@
 
-import React, { useState,useEffect } from 'react'; 
+import React, { useState,useEffect,useRef } from 'react'; 
 import Loader from 'react-loaders'
 import './index.scss'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faArrowLeft,faMicrophone,faPowerOff} from '@fortawesome/free-solid-svg-icons' 
 
 export default function Keyboard() { 
+
+	function useInterval(callback, delay) {
+		const savedCallback = useRef();
+	   
+		// Remember the latest callback.
+		useEffect(() => {
+		  savedCallback.current = callback;
+		}, [callback]);
+	   
+		// Set up the interval.
+		useEffect(() => {
+		  function tick() {
+			savedCallback.current();
+		  }
+		  if (delay !== null) {
+			let id = setInterval(tick, delay);
+			return () => clearInterval(id);
+		  }
+		}, [delay]);
+	  }
+	
+
+
     const [complete, setComplete] = useState('');
 	const [preinput, setPreinput] = useState('');
-	const [flag, setFlag] = useState(0);
+	const [ind, setInd] = useState(99);
     async function auto(preinput) {
 		console.log(preinput)
 		const url = 'https://typewise-ai.p.rapidapi.com/completion/complete';
@@ -22,17 +45,21 @@ export default function Keyboard() {
 		  body: JSON.stringify({  // Stringify the object into a JSON string
 			text: preinput,
 			correctTypoInPartialWord: false,
-			language: 'en'
+			language: ['en'],
+			maxNumberOfPredictions : 1
 		  })
 		};
 	  
 		try {
 		  const response = await fetch(url, options);
+		  
+
 		  const result = await response.text();
 		  const responseObject = JSON.parse(result);
+		  console.log(responseObject);
 		  
 		  console.log(responseObject.predictions[0].text);
-		  setComplete(responseObject.predictions[0].text.slice(preinput.length))
+		  setComplete(responseObject.predictions[0].text.slice(preinput.length-ind-1))
 
 		} catch (error) {
 		  console.error(error);
@@ -77,7 +104,10 @@ export default function Keyboard() {
 	  
 
 	const [loading, setLoading] = useState(true);
+	
 	useEffect(() => {
+	  
+
 	  if (loading) {
 		setTimeout(() => {
 		setLoading(false);
@@ -88,6 +118,8 @@ export default function Keyboard() {
 	const [inputText, setInputText] = useState(''); 
 
 	const handleKeyClick = (key) => { 
+		
+
         if (key === 'No') { 
 			handleDeleteKey(); 
 		}
@@ -99,25 +131,58 @@ export default function Keyboard() {
 			auto(inputText)
 			setTimeout(() => {
 				setInputText("");
-				setPreinput("");
+                 setPreinput("")
 			  }, 2000);
 			
 
 		}else if(key=="Yes"){
 
 			setInputText(inputText+complete);
+			setPreinput(preinput+complete);
 			setComplete("")
-			setPreinput("")
+			
 		}
 		else { 
+			//fetchData();
 			handleRegularKey(key); 
 		} 
 	}; 
 
+
+	const fetchData = async () => {
+
+		try {
+			const response = await fetch('http://localhost:5000'); // Replace with your backend URL
+			
+
+			if (!response.ok) {
+			  throw new Error(`HTTP error! status: ${response.status}`);
+			}
+	  
+			const data = await response.text(); // Assuming plain text response (character)
+			console.log(data.slice(1,-2))
+		   handleKeyClick(data.slice(1,-2));
+		} catch (error) {
+		  console.error('Error fetching data:', error);
+		  
+		} 
+	  };
+
+	  /*useInterval(() => {
+		// Your custom logic here
+		fetchData();
+	  }, 5000);*/
+	  
+	
+
+	
+
+	  
+
 	const handleDeleteKey = () => { 
 		if(complete.length>0)
 		{
-			setFlag(1)
+			
 			setComplete("")
 			return;
 		}
@@ -136,21 +201,26 @@ export default function Keyboard() {
 	
 
 	const handleRegularKey = (key) => { 
+		setPreinput(preinput+key)
 		
 		setInputText(inputText+key);
-		if(key==" "){
-			setPreinput("")
-			return;
-		}
-		else
-		{
-		setPreinput(preinput+key)
-		}
+		
+		
 
-		if(preinput.length>1)
+		if(preinput.length>30)
 			{
-			auto(preinput+key)
+			setPreinput(preinput.slice(preinput.indexOf(' ') + 1))
 			}
+		
+		if(key==" ")
+		{
+			setInd(preinput.length);
+		}
+		else if(preinput.length-ind>1)
+		{
+			auto(preinput+key)
+		}
+		
 
 	}; 
 

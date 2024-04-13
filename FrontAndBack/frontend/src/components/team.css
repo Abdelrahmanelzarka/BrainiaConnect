@@ -1,9 +1,10 @@
 /* Three columns side by side */
 .column {
     float: left !important;
-    width: 30% !important;
+    width: 200px !important;
+    height: 500px !important;
     margin-bottom: 16px !important;
-    padding: 0 8px !important;
+    padding: 10 80px !important;
   }
 .team{
 
@@ -22,7 +23,9 @@
   
   /* Add some shadows to create a card effect */
   .card {
+    width:200px !important;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) !important;
+    height: 500px !important;
    
   }
   
@@ -31,6 +34,7 @@
     background-color:white !important;
     padding: 0 16px !important;
   }
+  
   
   /* Clear floats */
   .container::after, .row::after {
@@ -58,3 +62,4 @@
   .button:hover {
     background-color: #555 !important;
   }
+ 
