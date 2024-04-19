@@ -4,11 +4,16 @@ import Loader from 'react-loaders'
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 
+import axios from 'axios';
 
 
 
 
 function Home() {
+  axios.defaults.withCredentials = true;
+
+  const [user, setUser] = useState(null);
+  
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (loading) {
@@ -17,6 +22,18 @@ function Home() {
     }, 1500);
     }
   }, [loading]);
+
+  useEffect(() => {
+    axios.defaults.withCredentials = true;
+        axios.post('http://localhost:5000/@me',{ withCredentials: true })
+            .then(function (response) {
+                console.log(response);
+                setUser(response);
+            })
+            .catch(function (error) {
+                console.log(error, 'error Not authenticated');
+            });
+  }, []);
   
 
   return (
@@ -27,7 +44,7 @@ function Home() {
      </div>:
 
 <>     
-<Navbar/>
+<Navbar user={user}/>
 
 <div style={{height:"600px",width:"100%"}}>
 

@@ -1,0 +1,48 @@
+/* styles.css */
+.mdl {
+    position: fixed;
+    top: 40%;
+    left: 40%;
+    width: 290px;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.742);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+    border-radius: 8px;
+  }
+  
+  .mdl-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    button{
+        
+        width: 70px;
+        color: black;
+        background-color: beige;
+        border-radius: 15px;
+    }
+  }
+  .animate {
+    animation-duration: 0.5s;
+    animation-name: animate-fade;
+    animation-delay: 0.2s;
+    animation-fill-mode: backwards;
+  }
+  
+  @keyframes animate-fade {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+  

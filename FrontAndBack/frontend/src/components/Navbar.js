@@ -1,12 +1,29 @@
 import React from "react";
 import "./navbar.css";
-import { AiOutlineMenu } from "react-icons/ai";
+import {useNavigate} from "react-router-dom";
 import { Link} from "react-router-dom";
 import logo from "../assets/photos/logo.png";
+import axios from "axios";
 
 
 
-export default function Navbar() {
+export default function Navbar({user}) {
+  const navigate = useNavigate();
+
+
+  const logOutUser = () => {
+    
+        axios.post('http://localhost:5000/logout')
+        .then(function (response) {
+            console.log(response);
+            window.location.reload(true);;
+          
+        })
+        .catch(function (error) {
+            console.log(error, 'error');
+        });
+    }
+
 
   const handleFooterClick = () => {
     window.scrollBy(0, document.documentElement.scrollHeight);
@@ -65,36 +82,38 @@ export default function Navbar() {
                   </Link>
                 </li>
 
-
+{ user &&
                 <li className="li">
                   <Link className="nav-link scrollto" to="/gui" >
                     Start
                   </Link>
-                </li>
+                </li>}
             
          
           </ul>
-
-          <button
-            className="custom-toggler navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarsExample09"
-            aria-controls="navbarsExample09"
-            aria-label="Toggle navigation"
-          >
-            <AiOutlineMenu />
-          </button>
+         
+        
         </nav>
 
       </div>
 
-           
+ 
   <div
 className={`log-sign container-fluid container-xl d-flex align-items-center justify-content-end`}
   >
+     {   user==null && 
+     <Link className="nav-link scrollto" to="/login" >            
     <button class="log">Login</button>
+                  </Link>}
+                  {   user==null && 
+    <Link className="nav-link scrollto" to="/signup" >
     <button class="reg">Sign up</button>
+    </Link>}
+
+    {   user && 
+    
+    <button class="log" onClick={logOutUser} >Log Out</button>
+    }
    
   </div>
 

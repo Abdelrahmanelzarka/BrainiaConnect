@@ -4,12 +4,26 @@ import Loader from 'react-loaders'
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import Team from '../../components/Team';
-
+import axios from 'axios';
 
 
 
 
 function About() {
+  
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    axios.defaults.withCredentials = true;
+        axios.post('http://localhost:5000/@me',{ withCredentials: true })
+            .then(function (response) {
+                console.log(response);
+                setUser(response);
+            })
+            .catch(function (error) {
+                console.log(error, 'error Not authenticated');
+            });
+  }, []);
   
 
   const [loading, setLoading] = useState(true);
@@ -30,7 +44,7 @@ function About() {
      </div>:
 
 <>     
-<Navbar/>
+<Navbar user={user} />
 
 <div style={{height:"600px",width:"100%"}}>
 
