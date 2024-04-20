@@ -3,6 +3,8 @@ import { useState,useEffect, React} from 'react'
 import Loader from 'react-loaders'
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import WelcomeParagrapg from '../../components/WelcomeParagraph';
+
 
 import axios from 'axios';
 
@@ -46,9 +48,13 @@ function Home() {
 <>     
 <Navbar user={user}/>
 
-<div style={{height:"600px",width:"100%"}}>
+<div style={{height:"70px",width:"100%"}}>
 
 </div>
+
+<WelcomeParagrapg/>
+
+<div style={{height:"600px",width:"100%"}}></div>
 
 <Footer/>
 </>

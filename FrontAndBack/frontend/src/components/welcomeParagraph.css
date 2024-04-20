@@ -1,0 +1,32 @@
+
+/*CSS for styling (creating a separate CSS file) */
+.image-paragraph-container {
+    display:flex;
+    align-items:center; /* Vertically aligns elements */
+  }
+  
+  .circular-image {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%; /* Creates the circular shape */
+    object-fit:cover; /* Ensures image fills the container */
+    /*margin-right: 70px;  /*Add some space between image and text */
+    display: inline-block;
+    margin: 35px 350px;
+    
+    
+  }
+  
+  .text-content {
+    margin-left: 20px; /* Adjust spacing between image and text */
+    font-family: 'Times New Roman';
+    font-size: larger;
+   
+  }
+  
+  .title {
+    font-weight: bold !important; /* Makes the title bold */
+    color: #01212e !important; /* Set title color to #01212e */
+    margin-bottom: 10px !important; /* Add some space between title and paragraph */
+    font-family: 'Times New Roman';
+  }
