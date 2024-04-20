@@ -2,7 +2,7 @@ import React from 'react';
 import logo from "../assets/photos/logo.png";
 import "./welcomeParagraph.css";
 
-export default function WelcomeParagrapg () {
+export default function welcomeParagraph () {
 
 
   return (

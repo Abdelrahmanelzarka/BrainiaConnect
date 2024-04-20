@@ -3,7 +3,7 @@ import { useState,useEffect, React} from 'react'
 import Loader from 'react-loaders'
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import WelcomeParagrapg from '../../components/WelcomeParagraph';
+import WelcomeParagraph from '../../components/WelcomeParagraph';
 
 
 import axios from 'axios';
@@ -52,7 +52,7 @@ function Home() {
 
 </div>
 
-<WelcomeParagrapg/>
+<WelcomeParagraph/>
 
 <div style={{height:"600px",width:"100%"}}></div>
 
