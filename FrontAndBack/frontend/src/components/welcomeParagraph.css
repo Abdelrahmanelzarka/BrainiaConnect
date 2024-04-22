@@ -3,6 +3,7 @@
 .image-paragraph-container {
     display:flex;
     align-items:center; /* Vertically aligns elements */
+    margin-left: 200px;
   }
   
   .circular-image {
@@ -24,9 +25,9 @@
    
   }
   
-  .title {
+  .titleHome {
     font-weight: bold !important; /* Makes the title bold */
     color: #01212e !important; /* Set title color to #01212e */
-    margin-bottom: 10px !important; /* Add some space between title and paragraph */
+    margin-bottom: 20px !important; /* Add some space between title and paragraph */
     font-family: 'Times New Roman';
   }

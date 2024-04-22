@@ -7,6 +7,7 @@ import WelcomeParagraph from '../../components/WelcomeParagraph';
 
 
 import axios from 'axios';
+import BestFeatures from '../../components/BestFeatures';
 
 
 
@@ -53,6 +54,11 @@ function Home() {
 </div>
 
 <WelcomeParagraph/>
+
+<div style={{height:"70px",width:"100%"}}></div>
+
+<BestFeatures/>
+
 
 <div style={{height:"600px",width:"100%"}}></div>
 
