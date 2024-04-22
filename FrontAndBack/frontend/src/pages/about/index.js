@@ -6,6 +6,7 @@ import Footer from '../../components/Footer';
 import Team from '../../components/Team';
 import axios from 'axios';
 import HeadSet from '../../components/HeadSet';
+import HowToUse from '../../components/HowToUse';
 
 
 
@@ -48,6 +49,8 @@ function About() {
 <Navbar user={user} />
 <div style={{height:"70px",width:"70%"}}></div>
 <HeadSet/>
+<div style={{height:"70px",width:"70%"}}></div>
+<HowToUse/>
 
 <div style={{height:"600px",width:"100%"}}>
 
