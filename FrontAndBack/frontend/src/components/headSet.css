@@ -1,0 +1,38 @@
+.media-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .media-card h2 {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .media-card p {
+    margin-bottom: 1rem;
+    margin-left: 20px; /* Adjust spacing between image and text */
+    font-family: 'Times New Roman';
+    font-size: larger
+  }
+  
+  .media-card img {
+    width: 100%; /* Adjust image width as needed */
+    object-fit: cover; /* Optional for image scaling */
+    align-items: end;
+  
+  }
+
+  .HesdSetImag {
+    object-fit:cover; /* Ensures image fills the container */
+    display: inline-block;
+    margin-left: 100px;
+    height: 350px;
+    width: 350px;
+  }
+  
