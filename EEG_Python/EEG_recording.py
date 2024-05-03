@@ -11,12 +11,13 @@ def main():
     inlet = StreamInlet(streams[0])
     print("Stream found!")
 
-    # Initialize the colomns of your data and your dictionary to capture the data.
+    # Initialize the columns of the data and dictionary to capture the data.
     columns = ['Time', 'FZ', 'C3', 'CZ', 'C4', 'PZ', 'PO7', 'OZ', 'PO8', 'AccX', 'AccY', 'AccZ',
                'Gyro1', 'Gyro2', 'Gyro3', 'Battery', 'Counter', 'Validation', 'Triggers']
-    s_freq = 250  # Sampling rate (Hz)
-    channel_names = ['FZ', 'C3', 'CZ', 'C4', 'PZ', 'PO7', 'OZ', 'PO8']  # List of channel names
-    # data_dict = dict((k, []) for k in columns)
+    # Sampling rate (Hz).
+    s_freq = 250
+    # List of channel names.
+    channel_names = ['FZ', 'C3', 'CZ', 'C4', 'PZ', 'PO7', 'OZ', 'PO8']
 
     data_only, all_data, all_triggers = [], [], []
     epochs = 10
@@ -28,44 +29,38 @@ def main():
         # Meaning we stop when we collect 250*60 samples.
         temp_time, triggers = [], []
         while len(temp_time) < 50:
-            # Get the streamed data. Columns of sample are equal to the columns variable,
-            # only the first element being timestamp concatenate timestamp and data in 1 list
+            # Get the streamed data. Columns of the sample are equal to the columns variable,
+            # only the first element being timestamp concatenate timestamp and data in 1 list.
             data, timestamp = inlet.pull_sample()
             all_data.append(timestamp + data)
             temp_time.append(timestamp)
             data_only.append(data)
-            # updating data dictionary with newly transmitted samples
-            # for key in list(data.keys()):
-            #     data_dict[key].append(all_data[i])
-            #     i += 1
         triggers.extend(0 for x in range(s_freq * 60))
         triggers[0] = trig
         all_triggers.append(triggers)
         trig += 1
 
-    # Combine all data chunks
+    # Combine all data chunks.
     data = np.concatenate(data_only, axis=0)
-    # Create an Info object with sampling rate and channel information
+    # Create an Info object with sampling rate and channel information.
     info = mne.create_info(ch_names=channel_names, sfreq=s_freq, ch_types='eeg')
-    # Create a Raw object containing the data and info
+    # Create a Raw object containing the data and info.
     raw = mne.io.RawArray(data, info)
-    # Additional information for XDF (optional)
-    events = [] # Can define events using mne.Annotations or mne.Epochs functions
-    # Save the data in EDF or XDF format (replace with your preferred format)
-    raw.save('my_eeg_recording.xdf', events=events, overwrite=True)
-    print("EEG recording saved in XDF format!")
+    events = [] # Can define events using mne.Annotations or mne.Epochs functions.
+    # Save the data in FIF format
+    raw.save('my_eeg_recording.fif', events=events, overwrite=True)
+    print("EEG recording saved in '.fif' format!")
 
-    with pyedflib.EdfWriter("my_data.edf", info['sfreq'], n_channels=int(8), file_type='') as f:
+    with pyedflib.EdfWriter("my_data.edf", s_freq, n_channels=8, file_type='float32') as f:
         f.set_labels(info['ch_names'])
         for channel in data:
             f.write_digital_samples(channel)
 
     # Lastly, save our data and triggers to a CSV format.
-    # data_df = pd.DataFrame.from_dict(data_dict)
     data_df = pd.DataFrame(all_data)
     data_df['Triggers'] = all_triggers
     data_df.columns = columns
-    data_df.to_csv('EEGdata.csv', index=False)
+    data_df.to_csv("EEGdata.csv", index=False)
     print("EEG recording saved in CSV format!")
 
 if __name__ == '__main__':
