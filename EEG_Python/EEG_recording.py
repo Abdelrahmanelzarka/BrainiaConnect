@@ -5,13 +5,13 @@ import numpy as np
 import pyedflib
 
 def main():
-    # Initialize the streaming layer
+    # Initialize streaming layer
     print("Looking for an EEG stream...")
     streams = resolve_stream()
     inlet = StreamInlet(streams[0])
     print("Stream found!")
 
-    # Initialize the columns of the data and dictionary to capture the data.
+    # Initialize columns of data and dictionary to capture the data.
     columns = ['Time', 'FZ', 'C3', 'CZ', 'C4', 'PZ', 'PO7', 'OZ', 'PO8', 'AccX', 'AccY', 'AccZ',
                'Gyro1', 'Gyro2', 'Gyro3', 'Battery', 'Counter', 'Validation', 'Triggers']
     # Sampling rate (Hz).
@@ -46,9 +46,8 @@ def main():
     info = mne.create_info(ch_names=channel_names, sfreq=s_freq, ch_types='eeg')
     # Create a Raw object containing the data and info.
     raw = mne.io.RawArray(data, info)
-    events = [] # Can define events using mne.Annotations or mne.Epochs functions.
     # Save the data in FIF format
-    raw.save('my_eeg_recording.fif', events=events, overwrite=True)
+    raw.save('my_eeg_recording.fif', overwrite=True)
     print("EEG recording saved in '.fif' format!")
 
     with pyedflib.EdfWriter("my_data.edf", s_freq, n_channels=8, file_type='float32') as f:
