@@ -2,16 +2,13 @@ import time
 from tkinter import Tk, Label, Canvas
 
 
-# Define character list
 characters = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ./,")
 
-# Define character grid dimensions
 char_width = 90
 char_height = 90
 margin_x = 45
 margin_y = 75
 
-# Initial variables
 current_index = 0
 selected = ""
 flag = 0
@@ -30,7 +27,7 @@ def main():
   #   update_selected(selected)
   #   reset()
 
-  # Function to reset the game
+  # Function to reset from the beginning
   def reset():
     global current_index
     current_index = 0
@@ -78,10 +75,8 @@ def main():
   canvas = Canvas(window, width=1390, height=815, background='black')
   canvas.grid(row=1, column=0, columnspan=8)
 
-  # Draw characters
   draw_characters()
 
-  # Highlight characters
   highlight_character()
 
   # Bind Enter key press to button click
