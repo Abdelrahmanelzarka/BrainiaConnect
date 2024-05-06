@@ -1,4 +1,4 @@
-from flask import Flask,jsonify, make_response,session,request
+from flask import Flask,jsonify, make_response,session,request,render_template,flash,redirect
 import random
 import string
 from flask_bcrypt import Bcrypt 
@@ -6,9 +6,31 @@ from flask_cors import CORS, cross_origin
 from models import db, User
 import tensorflow as tf
 import socket
+from numpy import load
+import numpy as np;
+from flask_mail import Mail, Message
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
 
 app = Flask(__name__)
 
+
+# Configure Flask-Mail (replace with your actual credentials)
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'brainiaconnect@gmail.com'
+app.config['MAIL_DEFAULT_SENDER'] = 'brainiaconnect@gmail.com'
+app.config['MAIL_PASSWORD'] = 'omhqceeedahqyzgs'
+#brainiaconnect1!
 
 app.config['SECRET_KEY'] = 'brainiaConnect'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flaskdb.db'
@@ -26,12 +48,94 @@ with app.app_context():
 @app.route("/")
 def hello_world():
     return "Hello, World!"
- 
+
+
+mail = Mail(app)
+
+@app.route("/reset-password/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+    print(token)
+    user = User.query.filter_by(id=token).first()
+  
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return jsonify({"error": "Not registered"}), 401
+    
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('Your password has been updated! You are now able to log in', 'success')
+        return redirect('http://localhost:3000/login')
+    
+    return render_template('reset_token.html', title='Reset Password', form=form)
+    
+
+@app.route('/forget-password', methods=['POST'])
+def forget_password():
+  try:
+    data = request.get_json()
+    email = data.get('email')
+  
+    user = User.query.filter_by(email=email).first()
+  
+    if user is None:
+        return jsonify({"error": "Not registered"}), 401
+    
+    
+    reset_token =user.id
+    print(reset_token)
+
+    msg_title = "You requested a password reset for your account."
+    sender = "brainiaconnect@gmail.com"
+    msg = Message(msg_title,sender=sender,recipients=[email])
+    msg_body = "Please click on the button below to reset your password:"
+    msg.body = ""
+    data = {
+		'app_name': "BrainiaConnect",
+		'title': msg_title,
+		'body': msg_body,
+        'app_link':f"http://127.0.0.1:5000/reset-password/{reset_token}"
+	}
+
+    msg.html = render_template("email.html",data=data)
+    mail.send(msg)
+
+    # Generate a random password reset token (replace with a secure generation method)
+  
+
+    # Implement logic to store the reset token associated with the email in your database
+   
+
+    # Create a message with password reset instructions
+    #msg = Message('Password Reset Request', sender='brainiaconnect@gmail.com', recipients=[email])
+    #msg.body = f"""
+    #You requested a password reset for your account.
+
+    #Please click on the following link to reset your password:
+
+    #http://your_website.com/reset-password/{reset_token}
+
+    #This link will expire in 24 hours.
+
+    #If you did not request a password reset, please ignore this email.
+    #"""
+
+    # Send the email
+    #mail.send(msg)
+
+    return jsonify({'message': 'A password reset link has been sent to your email'}), 200
+  except Exception as e:
+    print(e)  # Log the error for debugging
+    return jsonify({'message': 'An error occurred'}), 500
+
+
+
 @app.route("/@me", methods=["POST"])
 def get_current_user():
     user_id = session.get("user_id")
-    
-    print(session)
+
 
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
@@ -69,6 +173,9 @@ def signup():
         "email": new_user.email
     })
  
+
+
+
 @app.route("/login", methods=["POST"])
 def login_user():
     email = request.json["email"]
@@ -96,6 +203,7 @@ HOST = ''
 PORT = 1000
 data = b''
 
+
 # Create a TCP socket
 #with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 #    s.bind((HOST, PORT))
@@ -122,26 +230,34 @@ def load_model():
 load_model()
 
 
-@app.route('/predict', methods=['GET'])
+@app.route('/prediction', methods=['GET'])
 def predict():
-    prediction = model.predict(data)
-    data= b''
+    AllData = load('AllData.npy')
+    testdata = AllData[:, :, :, 39, 1, 50]
+    sizes = AllData.shape
+    testdata = np.reshape(testdata, (1,sizes[0], sizes[1], sizes[2]))
+    prediction = model.predict(testdata)
+    print(np.max(prediction[0]))
+    print(np.argmax(prediction[0]))
+    print(np.sum(prediction[0]))
+    alphabet = string.ascii_lowercase  # Get lowercase alphabet string
+    alphabet = list(alphabet)
+    num=['1', '2', '3', '4', '5','6', '7', '8', '9', '0']
+    alphabet+=["No",'Sound',' ',"Yes"]
+    data=alphabet[np.argmax(prediction[0])]
+    print(data)
 
-    return jsonify({'prediction': prediction.tolist()})
+
+    return jsonify({'prediction':data })
   
 
 
 
-@app.route("/get",methods=["GET"])
+@app.route("/get", methods=["GET"])
 def get():
   """Returns a random lowercase alphabet character."""
-  alphabet = string.ascii_lowercase  # Get lowercase alphabet string
-  alphabet = list(alphabet)
-  num=["Yes",'1', '2', '3', '4', '5','6', '7', '8', '9', '0']
-  alphabet+=["No",'Sound',' ']
-  random_index = random.randint(0, len(alphabet) -1)  # Generate random index
-  data=alphabet[random_index]
   
+ 
   
   response = make_response(jsonify(data))
 
@@ -155,9 +271,3 @@ def get():
 
 if __name__ == "__main__" :
     app.run(debug=True)
-    
-    
-
-
-
-    

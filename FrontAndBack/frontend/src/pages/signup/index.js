@@ -7,10 +7,20 @@ import "../login/index.css";
 
 export default function SignUp(){
 
+  const handleKeyClick=() => {navigate("/");}
+
     function validateEmail(email) {
         const regex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
         return regex.test(email);
       }
+      function validatePassword(password) {
+        // Regular expression for password validation
+        const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d\s]).{8,}$/;
+      
+        // Test the password against the regular expression
+        return regex.test(password);
+      }
+      
 
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
@@ -46,8 +56,17 @@ export default function SignUp(){
             setModalMessage("Password has left Blank!");
             setShowModal(true);
           }
+          else if(password.length <8)
+          {
+            setModalMessage("Password length must be greater than 8!");
+            setShowModal(true); 
+          }
           else if(password2!==password){
             setModalMessage("Password doesn't match!");
+            setShowModal(true);
+          }
+          else if(validatePassword(password) === false){
+            setModalMessage("Password Must have at least 1 special Character, 1 Capital Character, and 1 number.");
             setShowModal(true);
           }
           else
@@ -123,6 +142,7 @@ export default function SignUp(){
                 </form>
               </div>
               <div className="col-md-9 col-lg-6 col-xl-5">
+              <div className="key_40" style={{width:"65px", height:"38px", marginBottom:"10px",marginTop:"-50px",marginLeft:"230px", fontSize:"18px", fontWeight:"bold"}} onClick={() => handleKeyClick()} >back</div>
                 <img src={imgs[0]} className="img-fluid"/>
               </div>
             </div>

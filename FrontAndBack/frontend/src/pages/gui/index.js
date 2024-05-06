@@ -2,8 +2,9 @@
 import React, { useState,useEffect,useRef } from 'react'; 
 import Loader from 'react-loaders'
 import './index.scss'; 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faArrowLeft,faMicrophone,faPowerOff} from '@fortawesome/free-solid-svg-icons' 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faArrowLeft,faMicrophone,faPowerOff} from '@fortawesome/free-solid-svg-icons';
+
 
 export default function Keyboard() { 
 
@@ -122,8 +123,11 @@ export default function Keyboard() {
 
         if (key === 'No') { 
 			handleDeleteKey(); 
+			
+
 		}
 		else if (key=="back"){
+			//fetchData();
 			window.history.back();
 		}
 		else if(key == 'Sound'){
@@ -143,7 +147,7 @@ export default function Keyboard() {
 			
 		}
 		else { 
-			//fetchData();
+			
 			handleRegularKey(key); 
 		} 
 	}; 
@@ -152,16 +156,16 @@ export default function Keyboard() {
 	const fetchData = async () => {
 
 		try {
-			const response = await fetch('http://localhost:5000'); // Replace with your backend URL
+			const response = await fetch('http://localhost:5000/prediction'); // Replace with your backend URL
 			
 
 			if (!response.ok) {
 			  throw new Error(`HTTP error! status: ${response.status}`);
 			}
 	  
-			const data = await response.text(); // Assuming plain text response (character)
-			console.log(data.slice(1,-2))
-		   handleKeyClick(data.slice(1,-2));
+			const data = await response.json(); // Assuming plain text response (character)
+			console.log(data["prediction"])
+		   handleKeyClick(data["prediction"]);
 		} catch (error) {
 		  console.error('Error fetching data:', error);
 		  

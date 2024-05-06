@@ -25,7 +25,31 @@ export default function LoginPage(){
     const [password,setPassword] = useState('');
    
     const navigate = useNavigate();
-     
+    
+    const handleKeyClick=() => {navigate("/");}
+
+
+    const Forgetpass=() =>{        
+        axios.post('http://localhost:5000/forget-password', {
+          email: email
+      })
+      .then(function (response) {
+          console.log(response);
+          setModalMessage(response.data.message);
+          setShowModal(true);
+      }) .catch(function (error) {
+        console.log(error, 'error');
+        if (error.response.status === 401) {
+            setModalMessage("Please provide a registered email");
+            setShowModal(true);
+        }
+        if (error.response.status === 500) {
+            setModalMessage("There's an error please try again later");
+            setShowModal(true);
+        }
+    });
+    }
+    
     const logInUser = () => {
         if(email.length === 0){
           setModalMessage("Email has left Blank!");
@@ -70,8 +94,11 @@ export default function LoginPage(){
        <div className="login">
         <div className="container h-100 animatepop">
           <div className="container-fluid h-custom">
+         
             <div className="row d-flex justify-content-center align-items-center h-100">
+           
               <div className="col-md-9 col-lg-6 col-xl-5">
+              <div className="key_40" style={{width:"65px", height:"38px", marginBottom:"10px",marginTop:"-50px", fontSize:"18px", fontWeight:"bold"}} onClick={() => handleKeyClick()} >back</div>
                 <img src={imgs[0]} className="img-fluid" />
               </div>
               <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
@@ -98,7 +125,7 @@ export default function LoginPage(){
                         Remember me
                       </label>
                     </div>
-                    <a href="#!" className="text">Forgot password?</a>
+                    <a onClick={Forgetpass} className="text">Forgot password?</a>
                   </div>
  
                   <div className="text-center text-lg-start mt-4 pt-2">

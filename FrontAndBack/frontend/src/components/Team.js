@@ -28,7 +28,7 @@ export default function Team() {
           <h2>Abdelrahman Elzarka</h2>
           <p class="title">Student</p>
           <p>Software Engineer</p>
-          <p>abdelrahmanelzarka18@gmail.com</p>
+          <p >abdelrahmanelzarka18@gmail.com</p>
           <p><button class="button" onClick={() => handleContact("abdelrahmanelzarka18@gmail.com")} >Contact</button></p>
         </div>
       </div>
