@@ -10,12 +10,14 @@ from numpy import load
 import numpy as np;
 from flask_mail import Mail, Message
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import PasswordField, SubmitField
+from wtforms.validators import DataRequired, Length, EqualTo, Regexp
+
 
 
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[Regexp('^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$',message="Password must have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"),Length(min=8)] )
+    print("password: ",password)
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
@@ -66,7 +68,7 @@ def reset_token(token):
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user.password = hashed_password
         db.session.commit()
-        flash('Your password has been updated! You are now able to log in', 'success')
+        #flash('Your password has been updated! You are now able to log in', 'success')
         return redirect('http://localhost:3000/login')
     
     return render_template('reset_token.html', title='Reset Password', form=form)
@@ -233,7 +235,7 @@ load_model()
 @app.route('/prediction', methods=['GET'])
 def predict():
     AllData = load('AllData.npy')
-    testdata = AllData[:, :, :, 39, 1, 50]
+    testdata = AllData[:, :, :, 29, 1, 50]
     sizes = AllData.shape
     testdata = np.reshape(testdata, (1,sizes[0], sizes[1], sizes[2]))
     prediction = model.predict(testdata)

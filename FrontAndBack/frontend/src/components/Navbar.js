@@ -103,7 +103,7 @@ className={`log-sign container-fluid container-xl d-flex align-items-center just
   >
      {   user==null && 
      <Link className="nav-link scrollto" to="/login" >            
-    <button class="log">Login</button>
+    <button class="log">Log in</button>
                   </Link>}
                   {   user==null && 
     <Link className="nav-link scrollto" to="/signup" >
@@ -112,7 +112,7 @@ className={`log-sign container-fluid container-xl d-flex align-items-center just
 
     {   user && 
     
-    <button class="log" onClick={logOutUser} >Log Out</button>
+    <button class="log" onClick={logOutUser} >Log out</button>
     }
    
   </div>

@@ -29,7 +29,9 @@ export default function Keyboard() {
 	  }
 	
 
-
+	const [count, setCount] = useState(0);
+	
+	const [overlayClass, setoverlayClass] = useState('hide');
     const [complete, setComplete] = useState('');
 	const [preinput, setPreinput] = useState('');
 	const [ind, setInd] = useState(99);
@@ -122,17 +124,21 @@ export default function Keyboard() {
 		
 
         if (key === 'No') { 
+			setCount(0);
 			handleDeleteKey(); 
 			
 
 		}
 		else if (key=="back"){
-			//fetchData();
-			window.history.back();
+			setCount(0);
+			console.log("Back");
+			fetchData();
+			//window.history.back();
 		}
 		else if(key == 'Sound'){
+			setCount(0);
 			getVoiceFromText(inputText);
-			auto(inputText)
+			//auto(inputText)
 			setTimeout(() => {
 				setInputText("");
                  setPreinput("")
@@ -140,6 +146,18 @@ export default function Keyboard() {
 			
 
 		}else if(key=="Yes"){
+			setCount(count + 1);
+			console.log(count);
+			if(count==2)
+			{
+				setoverlayClass ('show_overlay');
+				
+			}
+			if(count==4)
+			{
+				setoverlayClass('hide');
+				setCount(0);
+			}
 
 			setInputText(inputText+complete);
 			setPreinput(preinput+complete);
@@ -147,7 +165,7 @@ export default function Keyboard() {
 			
 		}
 		else { 
-			
+			setCount(0);
 			handleRegularKey(key); 
 		} 
 	}; 
@@ -236,7 +254,11 @@ export default function Keyboard() {
 		   <Loader type="ball-clip-rotate-multiple" />
 		   </div>:
 
+
+
+
 		<div className='keyboard'> 
+		<div className={overlayClass}></div>
 			<div className="textcontainer"> 
 				<pre>{inputText}</pre><pre style={{marginLeft:"-20px",color:"grey"}}>{complete}</pre>  {complete.length>0?  <p>?</p>:<p>|</p>}
 			</div> 
@@ -328,6 +350,7 @@ export default function Keyboard() {
 
                 
 			</div> 
+			
 		</div> }
 	</>
 	) 
