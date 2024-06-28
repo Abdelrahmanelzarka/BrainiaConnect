@@ -1,0 +1,34 @@
+.tableSpecs-title {
+    text-align: center; /* Center the H1 title horizontally */
+    margin: 1rem 0; /* Add some space above and below the title */
+  }
+
+  .centered-table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Optional: Set minimum height for full viewport */
+  }
+  
+  .table-specs {
+    border-collapse: collapse; /* Remove space between cells */
+    width: 100%; /* Adjust table width as needed */
+    margin: 0 auto; /* Center the table horizontally (alternative to flexbox) */
+  }
+  
+  .table-specs th,
+  .table-specs td {
+    padding: 0.5rem 1rem; /* Add some padding to cells */
+    border: 1px solid #ddd; /* Add borders */
+    text-align: left; /* Align text to the left */
+  }
+  
+  .table-specs thead th {
+    background-color: #f2f2f2; /* Light gray background for headers */
+    font-weight: bold; /* Make headers bold */
+  }
+  
+  .table-specs tbody tr:nth-child(even) {
+    background-color: #f8f8f8; /* Light gray background for even rows */
+  }
+  

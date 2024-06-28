@@ -7,6 +7,7 @@ import Team from '../../components/Team';
 import axios from 'axios';
 import HeadSet from '../../components/HeadSet';
 import HowToUse from '../../components/HowToUse';
+import TechSpecs from '../../components/TechSpecs';
 
 
 
@@ -51,6 +52,9 @@ function About() {
 <HeadSet/>
 <div style={{height:"70px",width:"70%"}}></div>
 <HowToUse/>
+<div style={{height:"30px",width:"100%"}}></div>
+<TechSpecs/>
+<div style={{height:"30px",width:"100%"}}></div>
 
 <div style={{height:"600px",width:"100%"}}>
 
