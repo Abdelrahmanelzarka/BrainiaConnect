@@ -1,5 +1,6 @@
 import * as React from 'react';
 import wheelChair from "../assets/photos/wheelChair.png";
+import Picture1 from "../assets/photos/Picture1.png";
 import "./howtoUse.css";
 
 
@@ -25,14 +26,7 @@ const steps = [
   {
     label: 'Start gazing at the Letters',
     description: `For the patient to start to communicate with people smoothly start gazing
-     at the flickering letteres required to complete the word tha needs to be pronounced.
-        1.	A touchable button will be provided to return to the home page.
-        2.	The website will have a white text area for the user to write their message.
-        3.	There will be 36 buttons for English letters and numbers.
-        4.	A button for white-space will be provided.
-        5.	A speak button will be available to start pronouncing the sentence the user has written till now.
-        6.	A NO button will be provided to remove the last character or decline the suggestion from the auto-complete API.
-        7.	A YES button will be available to approve the suggestion from the auto-complete API.`,
+     at the flickering letteres required to complete the word tha needs to be pronounced.`,
   },
   {
     label: 'Auto-Complete',
@@ -111,7 +105,7 @@ export default function HowToUse() {
                     </Paper>
                 )}
                 </Box>
-                <img src={wheelChair} alt="How To Use BrainiaConnect" className="HowToUseImage" />
+                <img src={Picture1} alt="How To Use BrainiaConnect" className="HowToUseImage" />
         </div>
     </div>
 
