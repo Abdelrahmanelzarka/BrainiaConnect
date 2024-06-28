@@ -118,13 +118,8 @@ export default function LoginPage(){
                     <label className="form-label" for="form3Example4">Password</label>
                   </div>
  
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="form-check mb-0">
-                      <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                      <label className="form-check-label" for="form2Example3" >
-                        Remember me
-                      </label>
-                    </div>
+                  <div className="d-flex justify-content-between align-items-center ">
+                    
                     <a onClick={Forgetpass} className="text">Forgot password?</a>
                   </div>
  

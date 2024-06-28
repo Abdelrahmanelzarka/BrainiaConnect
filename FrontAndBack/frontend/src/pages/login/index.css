@@ -138,8 +138,9 @@
   }
   .text
   {
-    color: black !important;
-    width: 100px;
+    color: rgb(0, 0, 0) !important;
+    width: 100%;
+  
     margin-right: -30px;
     font-size: 14px !important;
     cursor: pointer;

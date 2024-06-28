@@ -261,3 +261,36 @@
 	  background-color: rgb(55, 55, 55);
 	}
   }
+
+  @media (max-width: 1300px) {
+	/* Styles for screens between 1024px and 1300px */
+  
+	.textcontainer {
+	  width: 800px; /* Adjust width for smaller screens */
+	 
+	}
+  
+	.keyboardcontainer {
+	  /* Adjust styles for keyboard container */
+	}
+  
+	 .key_40, .key_37, .key_39, .key_38 {
+	  /* Adjust styles for specific keys */
+	  width: 85px; 
+	height: 85px; 
+	font-size: 22px; 
+	}
+	.key_36{
+		width: 380px; 
+
+	}
+	@for $i from 0 through 35 {
+		.key_#{$i} {
+			width:65px;
+			height: 65px;
+			font-size: 24px; 
+		}
+  
+	/* Add more selectors as needed */
+  }
+}

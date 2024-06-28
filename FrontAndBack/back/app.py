@@ -69,7 +69,7 @@ def reset_token(token):
         user.password = hashed_password
         db.session.commit()
         #flash('Your password has been updated! You are now able to log in', 'success')
-        return redirect('http://localhost:3000/login')
+        return redirect('http://localhost:3001/login')
     
     return render_template('reset_token.html', title='Reset Password', form=form)
     
@@ -79,9 +79,7 @@ def forget_password():
   try:
     data = request.get_json()
     email = data.get('email')
-  
     user = User.query.filter_by(email=email).first()
-  
     if user is None:
         return jsonify({"error": "Not registered"}), 401
     
@@ -137,8 +135,6 @@ def forget_password():
 @app.route("/@me", methods=["POST"])
 def get_current_user():
     user_id = session.get("user_id")
-
-
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
     
@@ -264,7 +260,7 @@ def get():
   response = make_response(jsonify(data))
 
   # Add CORS headers
-  response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'  # Allow requests from your frontend
+  response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3001'  # Allow requests from your frontend
   response.headers['Access-Control-Allow-Methods'] = 'GET'  # Allow GET method (adjust if needed)
   response.headers['Access-Control-Allow-Headers'] = 'Content-Type'  # Allow Content-Type header (adjust if needed)
 
