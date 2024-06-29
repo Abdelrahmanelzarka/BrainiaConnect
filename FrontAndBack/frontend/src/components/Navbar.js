@@ -8,8 +8,6 @@ import axios from "axios";
 
 
 export default function Navbar({user}) {
-  const navigate = useNavigate();
-
 
   const logOutUser = () => {
     

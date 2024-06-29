@@ -1,5 +1,4 @@
 from flask import Flask,jsonify, make_response,session,request,render_template,flash,redirect
-import random
 import string
 from flask_bcrypt import Bcrypt 
 from flask_cors import CORS, cross_origin
@@ -15,31 +14,22 @@ from wtforms.validators import DataRequired, Length, EqualTo, Regexp
 
 
 
-class ResetPasswordForm(FlaskForm):
-    password = PasswordField('Password', validators=[Regexp('^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$',message="Password must have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"),Length(min=8)] )
-    print("password: ",password)
-    confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Reset Password')
+
 
 app = Flask(__name__)
-
-
-# Configure Flask-Mail (replace with your actual credentials)
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'brainiaconnect@gmail.com'
 app.config['MAIL_DEFAULT_SENDER'] = 'brainiaconnect@gmail.com'
 app.config['MAIL_PASSWORD'] = 'omhqceeedahqyzgs'
-#brainiaconnect1!
-
 app.config['SECRET_KEY'] = 'brainiaConnect'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flaskdb.db'
  
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = True
   
+mail = Mail(app)
 bcrypt = Bcrypt(app) 
 CORS(app, supports_credentials=True)
 db.init_app(app)
@@ -51,12 +41,80 @@ with app.app_context():
 def hello_world():
     return "Hello, World!"
 
+@app.route("/@me", methods=["POST"])
+def get_current_user():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    
+    user = User.query.filter_by(id=user_id).first()
+    return jsonify({
+        "id": user.id,
+        "email": user.email
+    }) 
+    
+@app.route("/signup", methods=["POST"])
+def signup():
+    name = request.json["name"]
+    age = request.json["age"]
+    gander = request.json["gander"]
+    email = request.json["email"]
+    password = request.json["password"]
+ 
+    user_exists = User.query.filter_by(email=email).first() is not None
+ 
+    if user_exists:
+        return jsonify({"error": "Email already exists"}), 409
+     
+    hashed_password = bcrypt.generate_password_hash(password)
+    new_user = User(email=email, password=hashed_password,name=name,age=age,gander=gander)
+    db.session.add(new_user)
+    db.session.commit()
+ 
+    session["user_id"] = new_user.id
+ 
+    return jsonify({
+        "id": new_user.id,
+        "email": new_user.email
+    })
 
-mail = Mail(app)
+@app.route("/login", methods=["POST"])
+def login_user():
+    email = request.json["email"]
+    password = request.json["password"]
+  
+    user = User.query.filter_by(email=email).first()
+  
+    if user is None:
+        return jsonify({"error": "Unauthorized Access"}), 401
+  
+    if not bcrypt.check_password_hash(user.password, password):
+        return jsonify({"error": "Unauthorized"}), 401
+      
+    session["user_id"] = user.id
+  
+    return jsonify({
+        "id": user.id,
+        "email": user.email
+    })
 
+@app.route("/logout", methods=["POST"])
+def logout_user():
+    session.pop("user_id")
+    return "200"
+ 
+
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[Regexp('^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$',message="Password must have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"),Length(min=8)] )
+    print("password: ",password)
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
+    
 @app.route("/reset-password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
-    print(token)
     user = User.query.filter_by(id=token).first()
   
     if user is None:
@@ -85,7 +143,6 @@ def forget_password():
     
     
     reset_token =user.id
-    print(reset_token)
 
     msg_title = "You requested a password reset for your account."
     sender = "brainiaconnect@gmail.com"
@@ -102,125 +159,23 @@ def forget_password():
     msg.html = render_template("email.html",data=data)
     mail.send(msg)
 
-    # Generate a random password reset token (replace with a secure generation method)
-  
-
-    # Implement logic to store the reset token associated with the email in your database
-   
-
-    # Create a message with password reset instructions
-    #msg = Message('Password Reset Request', sender='brainiaconnect@gmail.com', recipients=[email])
-    #msg.body = f"""
-    #You requested a password reset for your account.
-
-    #Please click on the following link to reset your password:
-
-    #http://your_website.com/reset-password/{reset_token}
-
-    #This link will expire in 24 hours.
-
-    #If you did not request a password reset, please ignore this email.
-    #"""
-
-    # Send the email
-    #mail.send(msg)
-
     return jsonify({'message': 'A password reset link has been sent to your email'}), 200
   except Exception as e:
-    print(e)  # Log the error for debugging
+    print(e)
     return jsonify({'message': 'An error occurred'}), 500
 
 
 
-@app.route("/@me", methods=["POST"])
-def get_current_user():
-    user_id = session.get("user_id")
-    if not user_id:
-        return jsonify({"error": "Unauthorized"}), 401
+
+
+
     
-    user = User.query.filter_by(id=user_id).first()
-    return jsonify({
-        "id": user.id,
-        "email": user.email
-    }) 
 
-@app.route("/logout", methods=["POST"])
-def logout_user():
-    session.pop("user_id")
-    return "200"
-    
-@app.route("/signup", methods=["POST"])
-def signup():
-    name = request.json["name"]
-    age = request.json["age"]
-    gander = request.json["gander"]
-    email = request.json["email"]
-    password = request.json["password"]
- 
-    user_exists = User.query.filter_by(email=email).first() is not None
- 
-    if user_exists:
-        return jsonify({"error": "Email already exists"}), 409
-     
-    hashed_password = bcrypt.generate_password_hash(password)
-    new_user = User(email=email, password=hashed_password,name=name,age=age,gander=gander)
-    db.session.add(new_user)
-    db.session.commit()
- 
-    session["user_id"] = new_user.id
- 
-    return jsonify({
-        "id": new_user.id,
-        "email": new_user.email
-    })
+
+
+
  
 
-
-
-@app.route("/login", methods=["POST"])
-def login_user():
-    email = request.json["email"]
-    password = request.json["password"]
-  
-    user = User.query.filter_by(email=email).first()
-  
-    if user is None:
-        return jsonify({"error": "Unauthorized Access"}), 401
-  
-    if not bcrypt.check_password_hash(user.password, password):
-        return jsonify({"error": "Unauthorized"}), 401
-      
-    session["user_id"] = user.id
-  
-    return jsonify({
-        "id": user.id,
-        "email": user.email
-    })
- 
-
-
-# Define host (usually empty string for listening on all interfaces) and port
-HOST = ''
-PORT = 1000
-data = b''
-
-
-# Create a TCP socket
-#with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-#    s.bind((HOST, PORT))
-#    s.listen()
-#    conn, addr = s.accept()
-#    with conn:
-#        print('Connected by', addr)
-
-        # Initialize an empty variable to store received data
-        
-
-        # Continuously receive data in a loop (replace 1024 with desired buffer size)
-#        while True:
-#            recieved_data = conn.recv(1024)
-#            if not data:  
-#            data += recieved_data  
 
 
 def load_model():
@@ -252,22 +207,6 @@ def predict():
     return jsonify({'prediction':data })
   
 
-
-
-@app.route("/get", methods=["GET"])
-def get():
-  """Returns a random lowercase alphabet character."""
-  
- 
-  
-  response = make_response(jsonify(data))
-
-  # Add CORS headers
-  response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'  # Allow requests from your frontend
-  response.headers['Access-Control-Allow-Methods'] = 'GET'  # Allow GET method (adjust if needed)
-  response.headers['Access-Control-Allow-Headers'] = 'Content-Type'  # Allow Content-Type header (adjust if needed)
-
-  return response
 
 
 if __name__ == "__main__" :

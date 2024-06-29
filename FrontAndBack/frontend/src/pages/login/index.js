@@ -6,7 +6,7 @@ import'./index.css';
 import Modal from "../../components/modal";
  
 export default function LoginPage(){
-    const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const closeModal = () => {
     setShowModal(false);
@@ -78,9 +78,8 @@ export default function LoginPage(){
         }
     }
  
-    let imgs = [
-      'https://as1.ftcdn.net/v2/jpg/03/39/70/90/1000_F_339709048_ZITR4wrVsOXCKdjHncdtabSNWpIhiaR7.jpg',
-    ];
+    let img = 
+      'https://as1.ftcdn.net/v2/jpg/03/39/70/90/1000_F_339709048_ZITR4wrVsOXCKdjHncdtabSNWpIhiaR7.jpg';
      
   return (
     <> 
@@ -99,7 +98,7 @@ export default function LoginPage(){
            
               <div className="col-md-9 col-lg-6 col-xl-5">
               <div className="key_40" style={{width:"65px", height:"38px", marginBottom:"10px",marginTop:"-50px", fontSize:"18px", fontWeight:"bold"}} onClick={() => handleKeyClick()} >back</div>
-                <img src={imgs[0]} className="img-fluid" />
+                <img src={img} className="img-fluid" />
               </div>
               <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                 <form>

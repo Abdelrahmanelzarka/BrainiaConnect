@@ -8,33 +8,30 @@ import {faArrowLeft,faMicrophone,faPowerOff} from '@fortawesome/free-solid-svg-i
 
 export default function Keyboard() { 
 
-	function useInterval(callback, delay) {
-		const savedCallback = useRef();
-	   
-		// Remember the latest callback.
-		useEffect(() => {
-		  savedCallback.current = callback;
-		}, [callback]);
-	   
-		// Set up the interval.
-		useEffect(() => {
-		  function tick() {
-			savedCallback.current();
-		  }
-		  if (delay !== null) {
-			let id = setInterval(tick, delay);
-			return () => clearInterval(id);
-		  }
-		}, [delay]);
-	  }
-	
-
 	const [count, setCount] = useState(0);
-	
 	const [overlayClass, setoverlayClass] = useState('hide');
     const [complete, setComplete] = useState('');
 	const [preinput, setPreinput] = useState('');
 	const [ind, setInd] = useState(99);
+	const [loading, setLoading] = useState(true);
+	const [inputText, setInputText] = useState(''); 
+
+	const fetchData = async () => {
+
+		try {
+			const response = await fetch('http://localhost:5000/prediction'); 
+			if (!response.ok) {
+			  throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json(); // Assuming plain text response (character)
+			console.log(data["prediction"])
+		   handleKeyClick(data["prediction"]);
+		} catch (error) {
+		  console.error('Error fetching data:', error);
+		  
+		} 
+	  };
+
     async function auto(preinput) {
 		console.log(preinput)
 		const url = 'https://typewise-ai.p.rapidapi.com/completion/complete';
@@ -45,7 +42,7 @@ export default function Keyboard() {
 			'X-RapidAPI-Key': '822faa135cmsh46dd819c637e709p1b2a20jsnb0f996ce58b9',
 			'X-RapidAPI-Host': 'typewise-ai.p.rapidapi.com'
 		  },
-		  body: JSON.stringify({  // Stringify the object into a JSON string
+		  body: JSON.stringify({  
 			text: preinput,
 			correctTypoInPartialWord: false,
 			language: ['en'],
@@ -55,17 +52,12 @@ export default function Keyboard() {
 	  
 		try {
 		  const response = await fetch(url, options);
-		  
-
 		  const result = await response.text();
 		  const responseObject = JSON.parse(result);
-		  console.log(responseObject);
-		  
-		  console.log(responseObject.predictions[0].text);
+
 		  setComplete(responseObject.predictions[0].text.slice(preinput.length-ind-1))
 
 		} catch (error) {
-		  console.error(error);
 		  setComplete("")
 		}
 	  }
@@ -75,8 +67,8 @@ export default function Keyboard() {
 		{
 			return;
 		}
-		const apiKey = "a2cf0958d6b24e1cb1e5040d37608cd1"; // Replace with your actual API key
-		const voiceRssUrl = `http://api.voicerss.org/?key=${apiKey}&hl=en-us&src=${inputText}&c=MP3&r=0&v=Linda`; // Specify audio format (MP3)
+		const apiKey = "a2cf0958d6b24e1cb1e5040d37608cd1";
+		const voiceRssUrl = `http://api.voicerss.org/?key=${apiKey}&hl=en-us&src=${inputText}&c=MP3&r=0&v=Linda`;
 	  
 		try {
 		  const response = await fetch(voiceRssUrl);
@@ -86,10 +78,8 @@ export default function Keyboard() {
 		  }
 	  
 		  const audioBlob = await response.blob();
-	  
 		  const audioContext = new AudioContext();
 		  const audioUrl = URL.createObjectURL(audioBlob);
-	  
 		  const audioSource = await fetch(audioUrl);
 		  const audioSourceData = await audioSource.arrayBuffer();
 	  
@@ -106,10 +96,8 @@ export default function Keyboard() {
 	  
 	  
 
-	const [loading, setLoading] = useState(true);
 	
 	useEffect(() => {
-	  
 
 	  if (loading) {
 		setTimeout(() => {
@@ -118,36 +106,31 @@ export default function Keyboard() {
 	  }
 	}, [loading]);
 
-	const [inputText, setInputText] = useState(''); 
 
 	const handleKeyClick = (key) => { 
 		
-
         if (key === 'No') { 
 			setCount(0);
 			handleDeleteKey(); 
-			
 
 		}
 		else if (key=="back"){
 			setCount(0);
-			console.log("Back");
 			fetchData();
 			//window.history.back();
 		}
 		else if(key == 'Sound'){
 			setCount(0);
 			getVoiceFromText(inputText);
-			//auto(inputText)
 			setTimeout(() => {
 				setInputText("");
                  setPreinput("")
-			  }, 2000);
+			  }, 1800);
 			
 
 		}else if(key=="Yes"){
 			setCount(count + 1);
-			console.log(count);
+
 			if(count==2)
 			{
 				setoverlayClass ('show_overlay');
@@ -171,35 +154,6 @@ export default function Keyboard() {
 	}; 
 
 
-	const fetchData = async () => {
-
-		try {
-			const response = await fetch('http://localhost:5000/prediction'); // Replace with your backend URL
-			
-
-			if (!response.ok) {
-			  throw new Error(`HTTP error! status: ${response.status}`);
-			}
-	  
-			const data = await response.json(); // Assuming plain text response (character)
-			console.log(data["prediction"])
-		   handleKeyClick(data["prediction"]);
-		} catch (error) {
-		  console.error('Error fetching data:', error);
-		  
-		} 
-	  };
-
-	  /*useInterval(() => {
-		// Your custom logic here
-		fetchData();
-	  }, 5000);*/
-	  
-	
-
-	
-
-	  
 
 	const handleDeleteKey = () => { 
 		if(complete.length>0)
@@ -224,10 +178,7 @@ export default function Keyboard() {
 
 	const handleRegularKey = (key) => { 
 		setPreinput(preinput+key)
-		
 		setInputText(inputText+key);
-		
-		
 
 		if(preinput.length>30)
 			{
@@ -241,10 +192,9 @@ export default function Keyboard() {
 		else if(preinput.length-ind>1)
 		{
 			auto(preinput+key)
-		}
-		
-
+		}	
 	}; 
+
 
 	return ( 
 		<>
@@ -254,28 +204,27 @@ export default function Keyboard() {
 		   <Loader type="ball-clip-rotate-multiple" />
 		   </div>:
 
-
-
-
 		<div className='keyboard'> 
 		<div className={overlayClass}></div>
 			<div className="textcontainer"> 
 				<pre>{inputText}</pre><pre style={{marginLeft:"-20px",color:"grey"}}>{complete}</pre>  {complete.length>0?  <p>?</p>:<p>|</p>}
 			</div> 
-			<div className="keyboardcontainer"> 
+			<div className="keyboardcontainer">
+
             <div className='cloumnskeys'>
+
             <div key="back" className="key_40" onClick={() => handleKeyClick("back")} >
-								
 									<span  ><FontAwesomeIcon icon={faArrowLeft} size="2x" /> </span> 
-								
 							</div> 
 
                             <div key="No" className="key_39"  onClick={() => handleKeyClick("No")} >	
 									<span >NO</span> 
-								
 							</div>
+
                             </div> 
+
 				<div className="containerKeyboard"> 
+
 					<div className="rowkeyboard"> 
 						{['1', '2', '3', '4', '5', 
 						'6', '7', '8', '9', '0'] 
@@ -284,12 +233,12 @@ export default function Keyboard() {
 							<div key={keyvalue} className={`key_${index}` }
 								onClick={() => handleKeyClick(keyvalue)}> 
 								{
-										<span >{keyvalue}</span> 
-									
+										<span >{keyvalue}</span>
 								} 
 							</div> 
 						))} 
 					</div> 
+
 					<div className="rowkeyboard"> 
 						{['q', 'w', 'e', 'r', 't', 'y', 
 						'u', 'i', 'o', 'p'] 
@@ -302,6 +251,7 @@ export default function Keyboard() {
 							</div> 
 						))} 
 					</div> 
+
 					<div className="rowkeyboard"> 
 						{['a', 's', 'd', 'f', 'g', 'h', 
 						'j', 'k', 'l'] 
@@ -314,6 +264,7 @@ export default function Keyboard() {
 							</div> 
 						))} 
 					</div> 
+
 					<div className="rowkeyboard"> 
 						{['z', 'x', 'c', 'v', 'b', 'n', 'm'].map((keyvalue, index) => ( 
 							<div className={`key_${index+29}` }
@@ -324,6 +275,7 @@ export default function Keyboard() {
 							</div> 
 						))} 
 					</div> 
+
 					<div className="rowkeyboard"> 
 						{[' '] 
 							.map((keyvalue, index) => ( 
@@ -333,17 +285,17 @@ export default function Keyboard() {
 							</div> 
 						))} 
 					</div> 
+
 				</div> 
+
                <div className='cloumnskeys'>
-                <div key="Sound" className='key_37' onClick={() => handleKeyClick("Sound")} >
-								
+
+                <div key="Sound" className='key_37' onClick={() => handleKeyClick("Sound")} >	
 									<span  ><FontAwesomeIcon icon={faMicrophone}  size="2x" /> </span> 
-								
 							</div> 
 
                             <div key="Yes" className='key_38'  onClick={() => handleKeyClick("Yes")}  >	
 									<span>YES/<FontAwesomeIcon icon={faPowerOff} /> </span> 
-								
 							</div> 
 
                             </div>

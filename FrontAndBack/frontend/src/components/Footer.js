@@ -4,9 +4,6 @@ import logo from "../assets/photos/logo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook,faTwitter,faLinkedinIn,faInstagram } from '@fortawesome/free-brands-svg-icons'
 
-/*
-01212e
-*/
 
 
 export default function Footer() {
@@ -29,7 +26,7 @@ export default function Footer() {
            <li><a href="./">Home</a></li>
            <li><a href="./about">About</a></li>
            <li><a href="./gui">Start</a></li>
-           <li><a href="#">Sign in</a></li>
+           <li><a href="./login">Sign in</a></li>
          </ul>
        </div>
 

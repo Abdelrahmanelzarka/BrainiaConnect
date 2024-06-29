@@ -5,8 +5,6 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import WelcomeParagraph from '../../components/WelcomeParagraph';
 import Testimonials from '../../components/Testimonials';
-
-
 import axios from 'axios';
 import BestFeatures from '../../components/BestFeatures';
 
@@ -15,9 +13,7 @@ import BestFeatures from '../../components/BestFeatures';
 
 function Home() {
   axios.defaults.withCredentials = true;
-
   const [user, setUser] = useState(null);
-  
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (loading) {
@@ -29,7 +25,7 @@ function Home() {
 
   useEffect(() => {
     axios.defaults.withCredentials = true;
-        axios.post('http://localhost:5000/@me',{ withCredentials: true })
+        axios.post('http://localhost:5000/@me')
             .then(function (response) {
                 console.log(response);
                 setUser(response);
@@ -49,23 +45,26 @@ function Home() {
 
 <>     
 <Navbar user={user}/>
+<div style={{height:"70px",width:"100%"}}></div>
 
-<div style={{height:"70px",width:"100%"}}>
+<div style={{margin:"40px"}}>
 
-</div>
+
 
 <WelcomeParagraph/>
+</div>
 
-<div style={{height:"70px",width:"100%"}}></div>
 
+<div style={{margin:"40px"}}>
 <BestFeatures/>
+</div>
 
-<div style={{height:"70px",width:"100%"}}></div>
 
+<div style={{margin:"40px"}}>
 <h1 className="testimonial-title">What our clients say about us?</h1>
 <Testimonials/>
+</div>
 
-<div style={{height:"70px",width:"100%"}}></div>
 
 
 

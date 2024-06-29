@@ -113,9 +113,7 @@ export default function SignUp(){
     }
     };
      
-    let imgs = [
-      'https://as2.ftcdn.net/v2/jpg/03/39/70/91/1000_F_339709132_H9HSSTtTmayePcbARkTSB2qoZTubJ6bR.jpg',
-    ];
+    let img= 'https://as2.ftcdn.net/v2/jpg/03/39/70/91/1000_F_339709132_H9HSSTtTmayePcbARkTSB2qoZTubJ6bR.jpg';
      
   return (
     <> 
@@ -182,7 +180,7 @@ export default function SignUp(){
               </div>
               <div className="col-md-9 col-lg-6 col-xl-5">
               <div className="key_40" style={{width:"65px", height:"38px", marginBottom:"10px",marginTop:"-50px",marginLeft:"230px", fontSize:"18px", fontWeight:"bold"}} onClick={() => handleKeyClick()} >back</div>
-                <img src={imgs[0]} className="img-fluid"/>
+                <img src={img} className="img-fluid"/>
               </div>
             </div>
           </div>

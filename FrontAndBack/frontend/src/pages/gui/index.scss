@@ -1,11 +1,9 @@
 
 .hide{
-	
 	animation: enter 0.3s ease-in-out;
 	position: absolute;
 	top: 0;
 	left: 0;
-	
 	background-color: #000000;
 	opacity: 0;
 	z-index: 90;
@@ -19,9 +17,7 @@
 	}
 	
 	100% {
-		
 		height: 0;
-		
 	}
 }
 .show_overlay{
@@ -79,8 +75,6 @@
 
 } 
 
-
-
 .keyboardcontainer { 
 	width: 100%; 
 	display: flex; 
@@ -131,24 +125,8 @@
     padding-bottom: 100px;
 }
 
-.key_40 { 
-	display: flex; 
-	width: 100px; 
-	height: 100px; 
-	margin: 5px; 
-	justify-content: center; 
-	flex-direction: column; 
-	align-items: center; 
-	background-color: #ffffff; 
-	border-radius: 45px; 
-	color: #000000; 
-	font-size: 30px; 
-	cursor: pointer; 
-	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
-	
-} 
 
-.key_37 { 
+.key_37, .key_40{ 
 	display: flex; 
 	width: 100px; 
 	height: 100px; 
@@ -165,7 +143,7 @@
 	animation: glowing 0.0641025641s infinite;
 } 
 
-.key_39 { 
+.key_39, .key_38{ 
 	display: flex; 
 	width: 120px; 
 	height: 120px; 
@@ -181,47 +159,6 @@
 	cursor: pointer; 
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
 	animation: glowing 0.06493506494s infinite;
-} 
-
-.key_38 { 
-	display: flex; 
-	width: 120px; 
-	height: 120px; 
-	margin: 5px; 
-	z-index: 99;
-	justify-content: center; 
-	flex-direction: column; 
-	align-items: center; 
-	background-color: #ffffff; 
-	border-radius: 50px; 
-	color: #000000; 
-	font-size: 35px; 
-    font-weight: bold;
-	cursor: pointer; 
-	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
-	animation: glowing 0.06578947368s infinite;
-} 
-
-
-
-
-
-
-
-.key2:hover { 
-	background-color: #5c5c5c; 
-} 
-
-.keyback:hover { 
-	background-color: #5c5c5c; 
-} 
-
-.key:hover{ 
-	background-color: #5c5c5c; 
-} 
-
-.keyYes:hover{ 
-	background-color: #5c5c5c; 
 } 
 
 
@@ -263,19 +200,17 @@
   }
 
   @media (max-width: 1300px) {
-	/* Styles for screens between 1024px and 1300px */
+
   
 	.textcontainer {
-	  width: 800px; /* Adjust width for smaller screens */
+	  width: 800px; 
 	 
 	}
   
-	.keyboardcontainer {
-	  /* Adjust styles for keyboard container */
-	}
+	
   
 	 .key_40, .key_37, .key_39, .key_38 {
-	  /* Adjust styles for specific keys */
+	  
 	  width: 85px; 
 	height: 85px; 
 	font-size: 22px; 
@@ -291,6 +226,6 @@
 			font-size: 24px; 
 		}
   
-	/* Add more selectors as needed */
+
   }
 }

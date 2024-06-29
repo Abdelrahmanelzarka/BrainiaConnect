@@ -20,7 +20,7 @@ function About() {
 
   useEffect(() => {
     axios.defaults.withCredentials = true;
-        axios.post('http://localhost:5000/@me',{ withCredentials: true })
+        axios.post('http://localhost:5000/@me')
             .then(function (response) {
                 console.log(response);
                 setUser(response);
@@ -51,16 +51,19 @@ function About() {
 <>     
 <Navbar user={user} />
 <div style={{height:"70px",width:"70%"}}></div>
+<div style={{margin:"50px"}}>
 <HeadSet/>
-<div style={{height:"70px",width:"70%"}}></div>
+</div>
+<div style={{margin:"40px"}}>
 <HowToUse/>
-<div style={{height:"30px",width:"100%"}}></div>
+</div>
+<div style={{margin:"40px"}}>
 <TechSpecs/>
-<div style={{height:"10px",width:"100%"}}></div>
+</div>
+<div style={{margin:"40px"}}>
 <h1 className="Location-title">Worldwide Locations</h1>
 <Locations/>
 
-<div style={{height:"70px",width:"100%"}}>
 
 </div>
 <h1 style={{paddingLeft:"50px", color:"#01212e"}}>Meet the team:</h1>
