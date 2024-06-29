@@ -1,0 +1,37 @@
+.gtech-locations {
+    display: flex; /* Arrange content side-by-side */
+    background-color: #f9f6f6; /* Light gray background */
+    padding: 2rem; /* Add some padding */
+    align-items: center; /* Vertically align content */
+    margin: 2rem 0; /* Add some margin for separation */
+  }
+  
+  .gtech-locations .content-container {
+    flex: 0.9; /* Allow paragraph to grow horizontally */
+    margin-right: 10rem; /* Add margin between paragraph and image */
+  }
+  
+  .gtech-locations img {
+    width: 70%; /* Adjust image width as needed */
+    max-width: 500px; /* Set a maximum width for responsiveness */
+    max-height: 350px;
+    object-fit: cover; /* Ensure image fills container while maintaining aspect ratio */
+  }
+
+  .Location-title {
+    text-align: center; /* Center the H1 title horizontally */
+    margin: 1rem 0; /* Add some space above and below the title */
+  }
+  
+  /* Optional media query for smaller screens */
+  @media (max-width: 768px) {
+    .gtech-locations {
+      flex-direction: column; /* Stack content vertically on smaller screens */
+      align-items: flex-start; /* Vertically align at the top */
+    }
+  
+    .gtech-locations .content-container {
+      margin-right: 0; /* Remove margin on smaller screens */
+      margin-bottom: 1rem; /* Add some margin between paragraph and image */
+    }
+  }

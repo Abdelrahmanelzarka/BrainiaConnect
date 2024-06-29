@@ -8,6 +8,7 @@ import axios from 'axios';
 import HeadSet from '../../components/HeadSet';
 import HowToUse from '../../components/HowToUse';
 import TechSpecs from '../../components/TechSpecs';
+import Locations from '../../components/Locations';
 
 
 
@@ -55,9 +56,11 @@ function About() {
 <HowToUse/>
 <div style={{height:"30px",width:"100%"}}></div>
 <TechSpecs/>
-<div style={{height:"30px",width:"100%"}}></div>
+<div style={{height:"10px",width:"100%"}}></div>
+<h1 className="Location-title">Worldwide Locations</h1>
+<Locations/>
 
-<div style={{height:"600px",width:"100%"}}>
+<div style={{height:"70px",width:"100%"}}>
 
 </div>
 <h1 style={{paddingLeft:"50px", color:"#01212e"}}>Meet the team:</h1>
