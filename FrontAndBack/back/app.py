@@ -69,7 +69,7 @@ def reset_token(token):
         user.password = hashed_password
         db.session.commit()
         #flash('Your password has been updated! You are now able to log in', 'success')
-        return redirect('http://localhost:3001/login')
+        return redirect('http://localhost:3000/login')
     
     return render_template('reset_token.html', title='Reset Password', form=form)
     
@@ -151,6 +151,9 @@ def logout_user():
     
 @app.route("/signup", methods=["POST"])
 def signup():
+    name = request.json["name"]
+    age = request.json["age"]
+    gander = request.json["gander"]
     email = request.json["email"]
     password = request.json["password"]
  
@@ -160,7 +163,7 @@ def signup():
         return jsonify({"error": "Email already exists"}), 409
      
     hashed_password = bcrypt.generate_password_hash(password)
-    new_user = User(email=email, password=hashed_password)
+    new_user = User(email=email, password=hashed_password,name=name,age=age,gander=gander)
     db.session.add(new_user)
     db.session.commit()
  
@@ -260,7 +263,7 @@ def get():
   response = make_response(jsonify(data))
 
   # Add CORS headers
-  response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3001'  # Allow requests from your frontend
+  response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'  # Allow requests from your frontend
   response.headers['Access-Control-Allow-Methods'] = 'GET'  # Allow GET method (adjust if needed)
   response.headers['Access-Control-Allow-Headers'] = 'Content-Type'  # Allow Content-Type header (adjust if needed)
 
