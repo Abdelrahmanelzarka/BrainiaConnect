@@ -4,6 +4,7 @@ import Loader from 'react-loaders'
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import WelcomeParagraph from '../../components/WelcomeParagraph';
+import Testimonials from '../../components/Testimonials';
 
 
 import axios from 'axios';
@@ -59,8 +60,14 @@ function Home() {
 
 <BestFeatures/>
 
+<div style={{height:"70px",width:"100%"}}></div>
 
-<div style={{height:"600px",width:"100%"}}></div>
+<h1 className="testimonial-title">What our clients say about us?</h1>
+<Testimonials/>
+
+<div style={{height:"70px",width:"100%"}}></div>
+
+
 
 <Footer/>
 </>

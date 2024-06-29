@@ -1,0 +1,91 @@
+.testimonials {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    margin: 5rem 0;
+  }
+
+  .testimonial-title {
+    text-align: center; /* Center the H1 title horizontally */
+    margin: 1rem 0; /* Add some space above and below the title */
+  }
+  
+  .carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    padding: 0.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #fff; /* Adjust color */
+  }
+  
+  .carousel-control.carousel-control-prev {
+    left: 0;
+  }
+  
+  .carousel-control.carousel-control-next {
+    right: 0;
+  }
+  
+  .carousel-slides {
+    display: flex;
+    width: calc(100% * 3); /* Adjust for number of testimonials per slide */
+    transition: transform 0.5s ease;
+  }
+  
+  .testimonial {
+    flex: 0 0 25%;/*0 0 33.33%; /* Adjust width for responsive layout */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 2rem;
+    margin: 0.5rem;
+    text-align: center;
+    scroll-snap-align: start; /* Snap to testimonial on scroll */
+    background: rgb(228, 240, 240);/*#fff; /* Adjust background color */
+  }
+  
+  .testimonial.active {
+    /* Add styles for active testimonial (optional) */
+    /* Example: add a subtle border or shadow */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .testimonial-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+  }
+  
+  .testimonial-content {
+    padding-top: 1rem;
+  }
+  
+  .testimonial-quote {
+    font-style: italic;
+    margin-bottom: 0.5rem;
+  }
+  
+  .testimonial-name {
+    font-weight: bold;
+  }
+  
+  .testimonial-rating {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .rating-star {
+    font-size: 1.5rem;
+    color: grey;
+    cursor: default; /* Prevent hover effects */
+  }
+  
+  .rating-star.filled {
+    color: gold;
+  }

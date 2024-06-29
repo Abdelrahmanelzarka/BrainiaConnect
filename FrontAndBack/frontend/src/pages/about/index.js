@@ -12,6 +12,7 @@ import TechSpecs from '../../components/TechSpecs';
 
 
 
+
 function About() {
   
   const [user, setUser] = useState(null);
