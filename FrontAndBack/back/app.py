@@ -1,17 +1,22 @@
-from flask import Flask,jsonify, make_response,session,request,render_template,flash,redirect
+from flask import Flask,jsonify,session,request,render_template,flash,redirect
 import string
 from flask_bcrypt import Bcrypt 
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from models import db, User
 import tensorflow as tf
-import socket
+import keras
 from numpy import load
 import numpy as np;
 from flask_mail import Mail, Message
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, Regexp
-
+import json
+from tensorflow.keras.models import model_from_json
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense, LayerNormalization, Dropout
+from tensorflow.keras.layers import MultiHeadAttention, Layer
+from tensorflow.keras.utils import register_keras_serializable
 
 
 
@@ -173,37 +178,73 @@ def forget_password():
 
 
 
+@register_keras_serializable()
+class TransformerBlock(Layer):
+    def __init__(self, embed_dim, num_heads, ff_dim, rate=0.1):
+        super(TransformerBlock, self).__init__()
+        self.att = MultiHeadAttention(num_heads=num_heads, key_dim=embed_dim)
+        self.ffn = Sequential(
+            [Dense(ff_dim, activation="relu"), Dense(embed_dim),]
+        )
+        self.layernorm1 = LayerNormalization(epsilon=1e-6)
+        self.layernorm2 = LayerNormalization(epsilon=1e-6)
+        self.dropout1 = Dropout(rate)
+        self.dropout2 = Dropout(rate)
 
+    def call(self, inputs, training):
+        attn_output = self.att(inputs, inputs)
+        attn_output = self.dropout1(attn_output, training=training)
+        out1 = self.layernorm1(inputs + attn_output)
+        ffn_output = self.ffn(out1)
+        ffn_output = self.dropout2(ffn_output, training=training)
+        return self.layernorm2(out1 + ffn_output)
  
 
 
 
 def load_model():
     global model  
-    model = tf.keras.models.load_model('main_net_3.h5 copy') 
+    with open('transformer_model_config (1).json') as json_file:
+        loaded_model_json = json_file.read()
+        
+    model = model_from_json(loaded_model_json, custom_objects={'TransformerBlock': TransformerBlock})
+    model.load_weights('transformer_model (1).h5')
     print(model)
-
+    
 load_model()
+
+"""
+30  :  a           19  :  b           2  :  c              9  :  d
+11  :  e           29  :  f           25  :  g             21  :  h
+28  :  i           103  :  j          18  :  k             40  :  l
+126  :  m          26  :  n           16  :  o             51  :  p
+8  :  q            0  :  r            27  :  s             17  :  t
+12  :  u           7  :  v            70  :  w             58  :  x
+91  :  y           62  :  z           13  :  0             4  :  1
+57  :  2           3  :  3            22  :  4             90  :  5
+67  :  6           6  :  7            37  :  8             77  :  9
+23  :              15  :  Sound       43  :  Yes           5  :  No
+"""
 
 
 @app.route('/prediction', methods=['GET'])
 def predict():
-    AllData = load('AllData.npy')
-    testdata = AllData[:, :, :, 29, 1, 50]
-    sizes = AllData.shape
-    testdata = np.reshape(testdata, (1,sizes[0], sizes[1], sizes[2]))
+    AllData = load('X_test.npy')
+   
+    testdata = AllData[15:16]
     prediction = model.predict(testdata)
     print(np.max(prediction[0]))
     print(np.argmax(prediction[0]))
     print(np.sum(prediction[0]))
-    alphabet = string.ascii_lowercase  # Get lowercase alphabet string
-    alphabet = list(alphabet)
-    num=['1', '2', '3', '4', '5','6', '7', '8', '9', '0']
-    alphabet+=["No",'Sound',' ',"Yes"]
-    data=alphabet[np.argmax(prediction[0])]
-    print(data)
 
-
+    Keyboard=['1', '2', '3', '4', '5','6', '7', '8', '9', '0']
+    Keyboard+=['q', 'w', 'e', 'r', 't', 'y','u', 'i', 'o', 'p'] 
+    Keyboard+=['a', 's', 'd', 'f', 'g', 'h','j', 'k', 'l']
+    Keyboard+=['z', 'x', 'c', 'v', 'b', 'n', 'm']
+    Keyboard+=[' '] 
+    Keyboard+=['Sound',"Yes","No"]
+    data=Keyboard[np.argmax(prediction[0])]
+    
     return jsonify({'prediction':data })
   
 

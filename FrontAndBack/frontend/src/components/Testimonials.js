@@ -70,9 +70,7 @@ const Testimonials = () => {
        
         ))}
       </div>
-      <button className="carousel-control carousel-control-next" onClick={handleNext}>
-        &gt;
-      </button>
+     
     </div>
   );
 };

@@ -23,9 +23,9 @@ export default function Keyboard() {
 			if (!response.ok) {
 			  throw new Error(`HTTP error! status: ${response.status}`);
 			}
-			const data = await response.json(); // Assuming plain text response (character)
+			const data = await response.json(); 
 			console.log(data["prediction"])
-		   handleKeyClick(data["prediction"]);
+		    handleKeyClick(data["prediction"]);
 		} catch (error) {
 		  console.error('Error fetching data:', error);
 		  
