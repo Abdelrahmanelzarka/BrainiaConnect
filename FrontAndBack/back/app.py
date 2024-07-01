@@ -55,7 +55,8 @@ def get_current_user():
     user = User.query.filter_by(id=user_id).first()
     return jsonify({
         "id": user.id,
-        "email": user.email
+        "email": user.email,
+        "gander": user.gander
     }) 
     
 @app.route("/signup", methods=["POST"])
@@ -214,37 +215,42 @@ def load_model():
 load_model()
 
 """
-30  :  a           19  :  b           2  :  c              9  :  d
-11  :  e           29  :  f           25  :  g             21  :  h
-28  :  i           103  :  j          18  :  k             40  :  l
-126  :  m          26  :  n           16  :  o             51  :  p
-8  :  q            0  :  r            27  :  s             17  :  t
-12  :  u           7  :  v            70  :  w             58  :  x
-91  :  y           62  :  z           13  :  0             4  :  1
-57  :  2           3  :  3            22  :  4             90  :  5
-67  :  6           6  :  7            37  :  8             77  :  9
-23  :              15  :  Sound       43  :  Yes           5  :  No
+  : 15     
+  
+0 : 37     1 : 43     2 : 5
+3 : 4     4 : 57     5 : 3     6 : 22
+7 : 90     8 : 67     9 : 6    
+
+No : 126   Sound : 23     Yes : 26     
+
+a : 16     b : 2
+c : 62     e : 8     f : 27     g : 9
+h : 29     i : 91     j : 25     k : 21
+l : 103     m : 19     n : 7     o : 12
+p : 28     q : 77     r : 70     t : 11
+u : 17     v : 58     w : 13     x : 40
+y : 0     z : 18
 """
 
 
 @app.route('/prediction', methods=['GET'])
 def predict():
     AllData = load('X_test.npy')
-   
-    testdata = AllData[15:16]
+    testdata = AllData[9:10]
     prediction = model.predict(testdata)
-    print(np.max(prediction[0]))
-    print(np.argmax(prediction[0]))
-    print(np.sum(prediction[0]))
-
-    Keyboard=['1', '2', '3', '4', '5','6', '7', '8', '9', '0']
+    
+    #print(np.argmax(prediction[0]))
+    #print(np.sum(prediction[0]))
+    Keyboard=['3','4','5','6', '7', '8', '9', '0']
     Keyboard+=['q', 'w', 'e', 'r', 't', 'y','u', 'i', 'o', 'p'] 
     Keyboard+=['a', 's', 'd', 'f', 'g', 'h','j', 'k', 'l']
     Keyboard+=['z', 'x', 'c', 'v', 'b', 'n', 'm']
-    Keyboard+=[' '] 
-    Keyboard+=['Sound',"Yes","No"]
+    Keyboard+=["Yes","No",'Sound',' ','1', '2']
     data=Keyboard[np.argmax(prediction[0])]
     
+    print(data)
+    print("probability : ",np.max(prediction[0]))
+
     return jsonify({'prediction':data })
   
 

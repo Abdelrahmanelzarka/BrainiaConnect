@@ -4,10 +4,12 @@ import Loader from 'react-loaders'
 import './index.scss'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faArrowLeft,faMicrophone,faPowerOff} from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 
 export default function Keyboard() { 
 
+	const [voice,setVoice]=useState('Linda');
 	const [count, setCount] = useState(0);
 	const [overlayClass, setoverlayClass] = useState('hide');
     const [complete, setComplete] = useState('');
@@ -18,18 +20,16 @@ export default function Keyboard() {
 
 	const fetchData = async () => {
 
-		try {
-			const response = await fetch('http://localhost:5000/prediction'); 
-			if (!response.ok) {
-			  throw new Error(`HTTP error! status: ${response.status}`);
-			}
-			const data = await response.json(); 
-			console.log(data["prediction"])
-		    handleKeyClick(data["prediction"]);
-		} catch (error) {
-		  console.error('Error fetching data:', error);
-		  
-		} 
+		axios.defaults.withCredentials = true;
+        axios.get('http://localhost:5000/prediction')
+            .then(function (response) {
+                console.log(response['data']);
+				handleKeyClick(response['data']["prediction"]);
+            })
+            .catch(function (error) {
+                console.error('Error fetching data:', error);
+            });
+
 	  };
 
     async function auto(preinput) {
@@ -67,8 +67,22 @@ export default function Keyboard() {
 		{
 			return;
 		}
+
+		axios.defaults.withCredentials = true;
+        axios.post('http://localhost:5000/@me')
+            .then(function (response) {
+               
+				if(response['data']['gander']=='Male')
+				{
+              	  setVoice('Mike');
+				}
+            })
+            .catch(function (error) {
+                console.log(error, 'error Not authenticated');
+            });
+
 		const apiKey = "a2cf0958d6b24e1cb1e5040d37608cd1";
-		const voiceRssUrl = `http://api.voicerss.org/?key=${apiKey}&hl=en-us&src=${inputText}&c=MP3&r=0&v=Linda`;
+		const voiceRssUrl = `http://api.voicerss.org/?key=${apiKey}&hl=en-us&src=${inputText}&c=MP3&r=0&v=${voice}`;
 	  
 		try {
 		  const response = await fetch(voiceRssUrl);
