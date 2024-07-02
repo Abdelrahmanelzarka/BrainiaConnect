@@ -9,6 +9,7 @@ import HeadSet from '../../components/HeadSet';
 import HowToUse from '../../components/HowToUse';
 import TechSpecs from '../../components/TechSpecs';
 import Locations from '../../components/Locations';
+import Unicorn from '../../components/Unicorn';
 import DiscoverUnicorn from '../../components/DiscoverUnicorn';
 
 
@@ -55,6 +56,10 @@ function About() {
 
 <div style={{margin:"50px"}}>
 <HeadSet/>
+</div>
+
+<div style={{margin:"40px"}}>
+<Unicorn/>
 </div>
 
 <div style={{margin:"40px"}}>

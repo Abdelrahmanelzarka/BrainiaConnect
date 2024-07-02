@@ -1,0 +1,16 @@
+.white-box {
+    background-color: white;  /* White background */
+    display: flex;          /* Use flexbox for layout */
+    justify-content: space-between; /* Align content horizontally */
+    align-items: center;      /* Align content vertically */
+    padding: 1rem;          /* Add some padding */
+  }
+  
+  .white-box h1 {
+    flex: 1;  /* Allow title to grow horizontally */
+  }
+  
+  .white-box img {
+    max-width: 50%;  /* Set a maximum width for responsiveness */
+    object-fit: cover; /* Maintain aspect ratio and fill container */
+  }
