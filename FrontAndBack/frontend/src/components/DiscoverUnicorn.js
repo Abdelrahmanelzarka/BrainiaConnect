@@ -1,4 +1,5 @@
 import React from 'react';
+import VR from "../assets/photos/VR.jpg";
 import "./discoverUnicorn.css";
 
 const BlackBox = () => {
@@ -25,7 +26,11 @@ const BlackBox = () => {
             <li> <b>P300 Paradigms:</b> Electrodes positioned over the central, parietal, and occipital areas.</li>
             <li> <b>SSVEP and Code-Based VEP Paradigms:</b> Electrodes located over the parietal regions.</li>
         </ul>
-        <p style={{ marginBottom: '3rem' }}>Reference and ground EEG electrodes are securely fixed on the mastoids of the user, ensuring stable and accurate readings.</p>
+        <p style={{ marginBottom: '3rem' }}>Reference and ground EEG electrodes are securely fixed on the mastoids of the user, 
+            ensuring stable and accurate readings.</p>
+        
+        <hr/>
+
       </div>
     );
   };

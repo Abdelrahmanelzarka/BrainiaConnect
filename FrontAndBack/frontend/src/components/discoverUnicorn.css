@@ -6,3 +6,7 @@
     font-family: Arial-light; /* Use Arial font */
     margin: 1rem; /* Add margin around the box */
   }
+
+.logo {
+     display: grid;
+}

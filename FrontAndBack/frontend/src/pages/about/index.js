@@ -11,6 +11,7 @@ import TechSpecs from '../../components/TechSpecs';
 import Locations from '../../components/Locations';
 import Unicorn from '../../components/Unicorn';
 import DiscoverUnicorn from '../../components/DiscoverUnicorn';
+import Electrodes from '../../components/Electrodes';
 
 
 
@@ -67,8 +68,14 @@ function About() {
 </div>
 
 <div style={{margin:"40px"}}>
+<Electrodes/>
+</div>
+
+<div style={{margin:"40px"}}>
 <TechSpecs/>
 </div>
+
+
 
 <div style={{margin:"40px"}}>
 <HowToUse/>
