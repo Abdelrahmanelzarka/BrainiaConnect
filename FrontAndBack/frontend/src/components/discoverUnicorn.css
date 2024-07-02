@@ -1,0 +1,8 @@
+
+.black-box {
+    background-color: black;
+    padding: 2rem; /* Add some padding */
+    color: white; /* Set text color to white */
+    font-family: Arial-light; /* Use Arial font */
+    margin: 1rem; /* Add margin around the box */
+  }

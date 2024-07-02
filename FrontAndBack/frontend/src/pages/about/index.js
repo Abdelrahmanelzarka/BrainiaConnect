@@ -9,6 +9,7 @@ import HeadSet from '../../components/HeadSet';
 import HowToUse from '../../components/HowToUse';
 import TechSpecs from '../../components/TechSpecs';
 import Locations from '../../components/Locations';
+import DiscoverUnicorn from '../../components/DiscoverUnicorn';
 
 
 
@@ -51,21 +52,28 @@ function About() {
 <>     
 <Navbar user={user} />
 <div style={{height:"70px",width:"70%"}}></div>
+
 <div style={{margin:"50px"}}>
 <HeadSet/>
 </div>
+
 <div style={{margin:"40px"}}>
-<HowToUse/>
+<DiscoverUnicorn/>
 </div>
+
 <div style={{margin:"40px"}}>
 <TechSpecs/>
 </div>
+
+<div style={{margin:"40px"}}>
+<HowToUse/>
+</div>
+
 <div style={{margin:"40px"}}>
 <h1 className="Location-title">Worldwide Locations</h1>
 <Locations/>
-
-
 </div>
+
 <h1 style={{paddingLeft:"50px", color:"#01212e"}}>Meet the team:</h1>
 <Team/>
 
