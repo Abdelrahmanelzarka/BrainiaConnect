@@ -13,7 +13,7 @@ const App = () => {
         <p>The Unicorn Hybrid EEG Electrodes are made of a conductive material that allows you to record dry or with gel.<br/> 
             Dry recordings are fast to setup. For better performance, conductive gel can be applied.<br/>
             Uncorn Hybrid EEG Electrodes provide a high flexibility and a practical solution for various EEG applications and contribute to the advancement of EEG technology.</p>
-            <hr/>
+            
       </div>
     </div>
   );

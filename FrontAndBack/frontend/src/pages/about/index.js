@@ -12,6 +12,7 @@ import Locations from '../../components/Locations';
 import Unicorn from '../../components/Unicorn';
 import DiscoverUnicorn from '../../components/DiscoverUnicorn';
 import Electrodes from '../../components/Electrodes';
+import IonBattery from '../../components/IonBattery';
 
 
 
@@ -69,6 +70,10 @@ function About() {
 
 <div style={{margin:"40px"}}>
 <Electrodes/>
+</div>
+
+<div style={{margin:"40px"}}>
+<IonBattery/>
 </div>
 
 <div style={{margin:"40px"}}>
