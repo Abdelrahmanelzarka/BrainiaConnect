@@ -9,10 +9,11 @@ To try it \
 2- cd inside frontend part \
 3- make sure to npm install all required packages \
 4- npm start
-\
+
+
 5- open another terminal and cd into back \
 6- pip install all packages \
-7- python app.py \
+7- python app.py 
 
 *make sure to register in the DB through sign up to get chance to see our product in GUI page 
 
